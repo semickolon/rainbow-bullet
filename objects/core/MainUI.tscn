@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scripts/ui/debug/Framerate.gd" type="Script" id=1]
+
+[node name="MainUI" type="CanvasLayer"]
+
+[node name="Label" type="Label" parent="."]
+margin_left = 7.0
+margin_top = 577.0
+margin_right = 201.0
+margin_bottom = 591.0
+text = "RAINBOW BULLET PROTOTYPE"
+
+[node name="Framerate" type="Label" parent="."]
+margin_left = 964.0
+margin_top = 7.0
+margin_right = 1004.0
+margin_bottom = 21.0
+align = 2
+script = ExtResource( 1 )

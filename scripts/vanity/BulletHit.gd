@@ -1,3 +1,4 @@
+# CLORO
 extends Sprite
 
 func start():
@@ -7,8 +8,4 @@ func start():
 	tween.start()
 	
 func _on_Tween_tween_all_completed(object, key):
-	print("completed")
 	queue_free()
-
-func _on_Tween_tween_started(object, key):
-	print("tween start")

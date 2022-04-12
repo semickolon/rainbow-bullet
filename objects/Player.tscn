@@ -29,4 +29,8 @@ collision_mask = 2
 position = Vector2( 0, 0.5 )
 shape = SubResource( 4 )
 
-[node name="Muzzle" parent="Hitbox" instance=ExtResource( 3 )]
+[node name="Muzzle" parent="." instance=ExtResource( 3 )]
+
+[node name="Timer" type="Timer" parent="Muzzle"]
+wait_time = 0.12
+one_shot = true

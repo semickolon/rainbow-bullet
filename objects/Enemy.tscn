@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://textures/enemy/Enemy_prototype.png" type="Texture" id=1]
-[ext_resource path="res://objects/PlayerDetection.gd" type="Script" id=2]
-[ext_resource path="res://objects/Enemy.gd" type="Script" id=3]
+[ext_resource path="res://scripts/PlayerDetection.gd" type="Script" id=2]
+[ext_resource path="res://scripts/Enemy.gd" type="Script" id=3]
 [ext_resource path="res://objects/Muzzle.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
@@ -11,7 +11,7 @@ radius = 30.0167
 [sub_resource type="CircleShape2D" id=2]
 radius = 181.069
 
-[node name="Enemy" type="KinematicBody2D"]
+[node name="Enemy" type="KinematicBody2D" groups=["mobs"]]
 position = Vector2( 4, 4 )
 script = ExtResource( 3 )
 
@@ -36,6 +36,10 @@ cast_to = Vector2( 300, 0 )
 collision_mask = 2
 
 [node name="Muzzle" parent="." instance=ExtResource( 4 )]
+
+[node name="Timer" type="Timer" parent="Muzzle"]
+wait_time = 0.5
+one_shot = true
 
 [connection signal="body_entered" from="PlayerDetection" to="PlayerDetection" method="_on_PlayerDetection_body_entered"]
 [connection signal="body_exited" from="PlayerDetection" to="PlayerDetection" method="_on_PlayerDetection_body_exited"]

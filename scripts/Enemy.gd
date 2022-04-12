@@ -32,6 +32,7 @@ func _physics_process(delta):
 			var gun_type = "Pistol"
 			if player != null:
 				_accelerate_towards_point(player.global_position, delta)
+				Muzzle.shoot(gun_type, "enemy")
 			else:
 				state = IDLE
 

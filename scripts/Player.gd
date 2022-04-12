@@ -8,10 +8,11 @@ var core_movement_multiplier = 1
 
 export(Vector2) var velocity := Vector2()
 
-onready var Muzzle = get_node("Muzzle")
+onready var Muzzle = $Hitbox/Muzzle
 onready var camera = get_tree().get_current_scene().get_node("Camera")
 
 export(String) var gun_type = "Pistol"
+onready var time = $Hitbox/Timer
 
 func _ready():
 	Muzzle.set_owner(get_path())

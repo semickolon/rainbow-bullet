@@ -10,6 +10,7 @@ extents = Vector2( 36, 36 )
 
 [node name="StaticBody2D" type="StaticBody2D"]
 position = Vector2( 230, -51 )
+z_index = -1
 
 [node name="Icon" type="Sprite" parent="."]
 texture = ExtResource( 1 )

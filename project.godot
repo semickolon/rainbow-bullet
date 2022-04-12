@@ -39,7 +39,7 @@ _global_script_class_icons={
 [application]
 
 config/name="RAINBOW_BULLET"
-run/main_scene="res://scenes/World.tscn"
+run/main_scene="res://scenes/MainMenu.tscn"
 config/icon="res://icon.png"
 
 [gdnative]
@@ -49,6 +49,7 @@ singletons=[ "res://addons/godot-git-plugin/git_api.gdnlib" ]
 [global]
 
 Font=false
+scene=false
 
 [input]
 

@@ -59,6 +59,16 @@ margin_bottom = 14.0
 text = "CREATED BY CLORO & ALUPIT"
 align = 2
 
+[node name="VersionText" type="Label" parent="Menu"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -199.0
+margin_top = 25.0
+margin_right = -6.0
+margin_bottom = 39.0
+text = "0.1.2"
+align = 2
+
 [node name="Credits" type="Panel" parent="Menu"]
 light_mask = 3
 anchor_right = 1.0

@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 onready var creditText = $CreditText
+onready var versionText = $VersionText
 onready var credits = $Credits
 onready var buttons = $Buttons
 onready var logo = $Logo
@@ -16,6 +17,8 @@ func wait(s = 1):
 func _ready():
 	yield(wait(1), "completed")
 	credits.queue_free()
+	
+	versionText.text = ProjectSettings.get("application/config/version")
 	
 
 

@@ -8,13 +8,10 @@ var core_movement_multiplier = 1
 
 export(Vector2) var velocity := Vector2()
 
-onready var Muzzle = get_node("Muzzle")
+onready var Muzzle = $Muzzle
 onready var camera = get_tree().get_current_scene().get_node("Camera")
 
 export(String) var gun_type = "Pistol"
-
-func _ready():
-	Muzzle.set_owner(get_path())
 
 func combine_multipliers() -> float:
 	return core_movement_multiplier
@@ -38,7 +35,7 @@ func get_input() -> void:
 ## Shoot
 func _input(event):
 	if (Input.is_action_just_pressed("shoot")):
-		Muzzle.shoot(gun_type)
+		Muzzle.shoot(gun_type, "player", 1500)
 
 func _physics_process(delta: float) -> void:
 	get_input()

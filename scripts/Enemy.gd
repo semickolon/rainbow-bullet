@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-export var ACCELRATION = 300
+export var ACCELRATION = 150
 export var MAX_SPEED = 150
 export var FRICTION = 200
 export var WANDER_TARGET_RANGE = 4
@@ -17,7 +17,7 @@ var state = CHASE
 
 onready var playerDetection = $PlayerDetection
 onready var Muzzle = $Muzzle
-onready var time = $Timer
+onready var time = $Muzzle/Timer
 
 
 func _physics_process(delta):

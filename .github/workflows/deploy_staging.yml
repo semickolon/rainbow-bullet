@@ -1,5 +1,5 @@
-name: 🌈 Export all
-on: [push, pull_request, workflow_dispatch]
+name: 🚧 Deploy to staging
+on: [push, pull_request]
 
 env:
   GODOT_VERSION: '3.4.4'
@@ -15,26 +15,14 @@ jobs:
     steps:
       - id: set-gd-ver
         run: echo "::set-output name=godot-version::${{ env.GODOT_VERSION }}"
-
-  export:
-    name: ${{ matrix.job-name }}
+  
+  deploy:
+    name: Deploy
     needs: set-env
     runs-on: ubuntu-20.04
 
     container:
       image: barichello/godot-ci:${{ needs.set-env.outputs.godot-version }}
-    
-    strategy:
-      matrix:
-        include:
-          - platform: windows
-            job-name: "🪟 Windows build"
-          - platform: osx
-            job-name: "🍎 macOS build"
-          - platform: linux
-            job-name: "🐧 Linux build"
-          - platform: web
-            job-name: "🖐️ HTML5 build"
 
     steps:
       - uses: actions/checkout@v2
@@ -48,10 +36,15 @@ jobs:
 
       - name: Export
         run: |
-          python export.py ${{ matrix.platform }}
+          python export.py web
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
+      - name: Deploy to Netlify
+        uses: jsmrcaga/action-netlify-deploy@v1.7.2
         with:
-          name: ${{ matrix.platform }}
-          path: bin/${{ matrix.platform }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_DEPLOY_MESSAGE: ${{ github.ref }}
+          build_directory: 'bin/web'
+          # Workaround to avoid npm build triggers
+          build_command: 'echo'
+          install_command: 'echo'

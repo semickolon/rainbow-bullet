@@ -35,12 +35,12 @@ def validate():
 
     return True
 
-def exec_command(cmd, cwd='.'):
-    return subprocess.run(cmd, cwd=cwd).returncode == 0
+def exec_command(cmd):
+    return os.system(cmd) == 0
 
-def get_command_output(cmd, cwd='.'):
+def get_command_output(cmd):
     try:
-        return subprocess.check_output(cmd.split(' '), cwd=cwd)
+        return subprocess.check_output(cmd.split(' '))
     except subprocess.CalledProcessError as e:
         return e.output.decode()
 
@@ -141,6 +141,11 @@ def export():
             'error_message': 'ERROR: Failed to make export presets'
         },
         {
+            'func': lambda : os.makedirs('bin/' + platform, exist_ok=True),
+            'start_message': 'Making export dirs...',
+            'error_message': 'ERROR: Failed to make export dirs'
+        },
+        {
             'func': lambda : exec_command('godot --no-window --export {}'.format(platform)),
             'start_message': 'Exporting with Godot...',
             'error_message': 'ERROR: Godot export failed'
@@ -157,7 +162,7 @@ def export():
         print(step['start_message'])
         success = step['func']()
 
-        if not success:
+        if success == False:
             print(step['error_message'])
             clean()
             return False

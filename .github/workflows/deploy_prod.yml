@@ -1,0 +1,57 @@
+name: 🌏 Deploy to production
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  GODOT_VERSION: '3.4.4'
+  ITCH_GAME: '89185838'
+  ITCH_USER: 'polychroma'
+
+jobs:
+  # Hacky workaround to use variables in container image
+  # https://github.community/t/how-to-use-env-with-container-image/17252/25
+  set-env:
+    name: Set environment
+    runs-on: ubuntu-20.04
+    outputs:
+      godot-version: ${{ steps.set-gd-ver.outputs.godot-version }}
+    steps:
+      - id: set-gd-ver
+        run: echo "::set-output name=godot-version::${{ env.GODOT_VERSION }}"
+  
+  deploy:
+    name: Deploy
+    needs: set-env
+    runs-on: ubuntu-20.04
+
+    container:
+      image: barichello/godot-ci:${{ needs.set-env.outputs.godot-version }}
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: actions/setup-python@v3
+
+      - id: get-version
+        uses: battila7/get-version-action@v2
+
+      - name: Setup export templates
+        run: |
+          mkdir -v -p ~/.local/share/godot/templates
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
+
+      - name: Export
+        run: |
+          python export.py web
+
+      - name: Deploy to itch.io
+        uses: josephbmanley/butler-publish-itchio-action@v1.0.3
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
+          ITCH_GAME: ${{ env.ITCH_GAME }}
+          ITCH_USER: ${{ env.ITCH_USER }}
+          CHANNEL: web
+          PACKAGE: bin/web
+          VERSION: ${{ steps.get-version.outputs.version }}
